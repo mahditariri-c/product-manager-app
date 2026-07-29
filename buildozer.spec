@@ -12,8 +12,8 @@ version = 4.0.0
 orientation = portrait
 
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
-android.api = 30
+android.api = 33
 android.minapi = 21
-android.ndk = 23b
-android.sdk = 30
+android.ndk = 28c
+android.sdk = 33
 android.enable_androidx = True
