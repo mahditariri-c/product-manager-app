@@ -6,7 +6,7 @@ package.domain = org.mahditar
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 
-requirements = python3,kivy,kivymd
+requirements = python3,kivy,kivymd,openpyxl,reportlab
 
 version = 4.0.0
 orientation = portrait
