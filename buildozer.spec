@@ -12,15 +12,8 @@ version = 4.0.0
 orientation = portrait
 
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
-android.api = 30
+android.api = 29
 android.minapi = 21
 android.ndk = 23b
-android.sdk = 30
+android.sdk = 29
 android.enable_androidx = True
-
-# بخش ساخت نسخه نهایی
-android.release = True
-android.keystore = ~/.buildozer/keys/productmanager.keystore
-android.keystore_alias = productmanager
-android.keystore_password = 123456
-android.keystore_key_password = 123456
