@@ -1,61 +1,27 @@
-name: ساخت APK نسخه حرفه‌ای
+- name: Install Android SDK
+  run: |
+    sudo apt-get update
+    sudo apt-get install -y wget unzip openjdk-17-jdk
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+    # دانلود و استخراج SDK
+    wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+    unzip -q commandlinetools-linux-9477386_latest.zip -d android-sdk
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+    # ساختار استاندارد cmdline-tools
+    mkdir -p android-sdk/cmdline-tools
+    mv android-sdk/cmdline-tools android-sdk/cmdline-tools/latest || true
+    mkdir -p android-sdk/cmdline-tools/latest
+    mv android-sdk/* android-sdk/cmdline-tools/latest/ || true
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
+    export ANDROID_HOME=$PWD/android-sdk
+    export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.10'
+    # قبول تمام مجوزها به صورت خودکار
+    yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
-      - name: Install Android SDK and accept licenses
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip openjdk-17-jdk
+    # نصب دقیق نسخه‌های مورد نیاز
+    $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0" || true
+    $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" || true
 
-          # Download Android SDK
-          wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-          unzip -q commandlinetools-linux-9477386_latest.zip -d android-sdk
-          mkdir -p android-sdk/cmdline-tools
-          mv android-sdk/cmdline-tools android-sdk/cmdline-tools/latest
-
-          export ANDROID_HOME=$PWD/android-sdk
-          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-
-          # Accept all licenses
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
-          # Install required build-tools and platform
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0" || true
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" || true
-
-          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
-
-      - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install buildozer cython
-          pip install kivy kivymd openpyxl reportlab
-
-      - name: Build APK
-        run: |
-          export ANDROID_HOME=$PWD/android-sdk
-          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-          buildozer android debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v7
-        with:
-          name: product-manager-app
-          path: bin/*.apk
+    echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+    echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
