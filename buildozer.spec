@@ -12,8 +12,11 @@ version = 4.0.0
 orientation = portrait
 
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
-android.api = 33
+android.api = 34
 android.minapi = 21
 android.ndk = 28c
-android.sdk = 33
+android.sdk = 34
 android.enable_androidx = True
+
+# مشخص کردن نسخه build-tools
+android.build_tools = 34.0.0
