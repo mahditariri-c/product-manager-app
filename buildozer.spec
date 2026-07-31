@@ -17,6 +17,3 @@ android.minapi = 21
 android.ndk = 28c
 android.sdk = 34
 android.enable_androidx = True
-
-# مشخص کردن نسخه build-tools
-android.build_tools = 34.0.0
