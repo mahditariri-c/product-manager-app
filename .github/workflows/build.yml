@@ -30,8 +30,7 @@ jobs:
         pip install kivy kivymd openpyxl reportlab
     
     - name: Build APK
-      run: |
-        buildozer android debug
+      run: buildozer android debug
     
     - name: Upload APK
       uses: actions/upload-artifact@v7
